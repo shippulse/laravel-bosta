@@ -1,0 +1,24 @@
+{
+    "name": "shippulse/laravel-bosta",
+    "description": "laravel-bosta",
+    "autoload": {
+        "psr-4": {
+            "Obelaw\\Shippulse\\Bosta\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Karim Mohamed",
+            "email": "komicho1996@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Obelaw\\Shippulse\\Bosta\\Providers\\ShippulseBostaServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
