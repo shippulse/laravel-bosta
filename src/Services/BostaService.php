@@ -100,6 +100,16 @@ class BostaService implements ShippingProviderInterface
             'Authorization' => $this->configs['token'],
         ])->delete($this->bosta->getBaseUrl() . '/api/v2/deliveries/business/' . $trackingNumber . '/terminate');
 
-        return $response->json();
+        $json = $response->json();
+        if (!$response->ok() || !isset($json['success'])) {
+            throw new \Exception($json['message'] ?? 'Failed to cancel shipment');
+        }
+
+        return [
+            'trackingNumber' => $trackingNumber,
+            'success' => $json['success'],
+            'message' => $json['message'] ?? null,
+            'data' => $json['data'] ?? null,
+        ];
     }
 }
