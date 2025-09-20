@@ -4,6 +4,7 @@ namespace Obelaw\Shippulse\Bosta\Services;
 
 use Illuminate\Support\Facades\Http;
 use Obelaw\Shippulse\Bosta\Entry\Account;
+use Obelaw\Shippulse\Bosta\Resources\CreateShipmentResource;
 use Obelaw\Shippulse\Bosta\Services\BostaShippingService;
 use Obelaw\Shippulse\Shipper\Contracts\ShippingProviderInterface;
 use Obelaw\Shippulse\Shipper\Contracts\ShipmentDataInterface;
@@ -34,13 +35,17 @@ class BostaService implements ShippingProviderInterface
 
     public function createShipment(ShipmentDataInterface $data)
     {
-
         $response = Http::withHeaders([
             'Authorization' => $this->configs['token'],
             'Content-Type' => 'application/json',
         ])->post($this->bosta->getBaseUrl() . '/api/v2/deliveries?apiVersion=1', $data->toArray());
 
-        return $response->json();
+
+        if (!$response->json('success')) {
+            throw new \Exception($response->json('message'));
+        }
+
+        return new CreateShipmentResource($response->json());
     }
 
     public function labelShipment($trackingNumber)
