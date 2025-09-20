@@ -12,6 +12,10 @@
             "email": "komicho1996@gmail.com"
         }
     ],
+    "require": {
+        "shippulse/shipper": "dev-main",
+        "illuminate/support": "^12.30"
+    },
     "extra": {
         "laravel": {
             "providers": [

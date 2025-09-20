@@ -4,6 +4,7 @@ namespace Obelaw\Shippulse\Bosta\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Obelaw\Shippulse\Bosta\Services\BostaService;
+use Obelaw\Shippulse\Shipper\ShipperManager;
 
 class ShippulseBostaServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,8 @@ class ShippulseBostaServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('bosta', BostaService::class);
+
+        ShipperManager::addShipper('bosta', fn() => app('bosta'));
     }
 
     /**
@@ -24,6 +27,7 @@ class ShippulseBostaServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         // Boot logic for the service provider
     }
 }
