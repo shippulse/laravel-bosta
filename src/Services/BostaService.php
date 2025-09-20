@@ -3,11 +3,12 @@
 namespace Obelaw\Shippulse\Bosta\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Obelaw\Shippulse\Bosta\Entry\Account;
 use Obelaw\Shippulse\Bosta\Resources\CreateShipmentResource;
 use Obelaw\Shippulse\Bosta\Services\BostaShippingService;
-use Obelaw\Shippulse\Shipper\Contracts\ShippingProviderInterface;
 use Obelaw\Shippulse\Shipper\Contracts\ShipmentDataInterface;
+use Obelaw\Shippulse\Shipper\Contracts\ShippingProviderInterface;
 
 class BostaService implements ShippingProviderInterface
 {
@@ -56,11 +57,25 @@ class BostaService implements ShippingProviderInterface
             'trackingNumbers' => $trackingNumber
         ]);
 
-        $pdf_data = base64_decode($response->json()['data'], true);
-        file_put_contents('airway_bill.pdf', $pdf_data);
-        dd($response->json());
+        $json = $response->json();
+        if (!$response->ok() || empty($json['data'])) {
+            throw new \Exception($json['message'] ?? 'Failed to generate label');
+        }
 
-        return $response->json();
+        $pdf_data = base64_decode($json['data'], true);
+
+        $fileName = 'airway_bill_' . $trackingNumber . '.pdf';
+        $directory = 'bosta_labels';
+        $fullPath = $directory . '/' . $fileName;
+        Storage::put($fullPath, $pdf_data);
+
+        return [
+            'url' => Storage::url($fullPath),
+            'path' => Storage::path($fullPath),
+            'trackingNumber' => $trackingNumber,
+            'success' => true,
+            'message' => $json['message'] ?? null,
+        ];
     }
 
     public function trackShipment($trackingNumber)
