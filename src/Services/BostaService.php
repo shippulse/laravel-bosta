@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Obelaw\Shippulse\Bosta\Entry\Account;
 use Obelaw\Shippulse\Bosta\Resources\CreateShipmentResource;
+use Obelaw\Shippulse\Bosta\Resources\TrackShipmentResource;
 use Obelaw\Shippulse\Bosta\Services\BostaShippingService;
 use Obelaw\Shippulse\Shipper\Contracts\ShipmentDataInterface;
 use Obelaw\Shippulse\Shipper\Contracts\ShippingProviderInterface;
@@ -86,7 +87,11 @@ class BostaService implements ShippingProviderInterface
             'trackingNumbers' => $trackingNumber
         ]);
 
-        return $response->json('data.deliveries.0.state.value');
+        if (!$response->ok() || empty($response->json('data.deliveries'))) {
+            throw new \Exception($response->json('message') ?? 'Failed to track shipment');
+        }
+
+        return new TrackShipmentResource($response->json());
     }
 
     public function cancelShipment($trackingNumber)
