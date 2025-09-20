@@ -1,5 +1,7 @@
 # Laravel Bosta Shipping Integration
 
+This package provides a Laravel integration for the Bosta shipping API, enabling you to easily create, track, label, and cancel shipments programmatically. It is designed for e-commerce platforms and businesses that need to automate shipping workflows with Bosta in Egypt.
+
 ## Installation
 
 Install via Composer:
