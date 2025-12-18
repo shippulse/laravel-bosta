@@ -9,12 +9,13 @@ class ShipmentData implements ShipmentDataInterface
 {
     public function __construct(
         private int $type = 10,
+        private ?array $specs = null,
         private float $cod = 0.0,
         private ReceiverData $receiverData,
         private PickupAddressData $pickupAddressData,
         private DropOffAddressData $dropOffAddressData,
         private ?string $notes = null,
-        private ?string $webhookUrl = null
+        private ?string $webhookUrl = null 
     ) {
         // Initialize properties if needed
     }
@@ -35,6 +36,10 @@ class ShipmentData implements ShipmentDataInterface
 
         if ($this->webhookUrl) {
             $data['webhookUrl'] = $this->webhookUrl;
+        }
+
+        if ($this->specs) {
+            $data['specs'] = $this->specs;
         }
 
         return $data;
