@@ -18,6 +18,8 @@ class ShippulseBostaServiceProvider extends ServiceProvider
         $this->app->bind('bosta', BostaService::class);
 
         ShipperManager::addShipper('bosta', fn() => app('bosta'));
+
+        Mapper::addMapper(__DIR__ . '/../../mapper/egypt.json');
     }
 
     /**
@@ -27,7 +29,6 @@ class ShippulseBostaServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         // Boot logic for the service provider
     }
 }
