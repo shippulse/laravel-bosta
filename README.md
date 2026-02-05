@@ -13,12 +13,12 @@ composer require shippulse/laravel-bosta
 ## ShipmentData Method
 
 ```php
-use Shippulse\Entry\Account;
-use Shippulse\Entry\DropOffAddressData;
-use Shippulse\Entry\PickupAddressData;
-use Shippulse\Entry\ReceiverData;
-use Shippulse\Entry\ShipmentData;
-use Shippulse\Facades\Bosta;
+use Obelaw\Shippulse\Bosta\Entry\Account;
+use Obelaw\Shippulse\Bosta\Entry\DropOffAddressData;
+use Obelaw\Shippulse\Bosta\Entry\PickupAddressData;
+use Obelaw\Shippulse\Bosta\Entry\ReceiverData;
+use Obelaw\Shippulse\Bosta\Entry\ShipmentData;
+use Obelaw\Shippulse\Bosta\Facades\Bosta;
 
 $shipment = Bosta::setConfig(new Account('email', 'password'))->createShipment(new ShipmentData(
         type: 10,
@@ -66,8 +66,8 @@ After calling `createShipment`, you get an instance of `CreateShipmentResource`.
 To print or download the shipment label (AWB PDF), use the `labelShipment` method:
 
 ```php
-use Shippulse\Entry\Account;
-use Shippulse\Facades\Bosta;
+use Obelaw\Shippulse\Bosta\Entry\Account;
+use Obelaw\Shippulse\Bosta\Facades\Bosta;
 $label = Bosta::setConfig(new Account('email', 'password'))->labelShipment($trackingNumber);
 ```
 
@@ -84,8 +84,8 @@ This returns an array with:
 To track a shipment and get its current state and details, use the `trackShipment` method:
 
 ```php
-use Shippulse\Entry\Account;
-use Shippulse\Facades\Bosta;
+use Obelaw\Shippulse\Bosta\Entry\Account;
+use Obelaw\Shippulse\Bosta\Facades\Bosta;
 $tracking = Bosta::setConfig(new Account('email', 'password'))->trackShipment($trackingNumber);
 ```
 
@@ -112,8 +112,8 @@ This returns an instance of `TrackShipmentResource` with methods:
 To cancel a shipment, use the `cancelShipment` method:
 
 ```php
-use Shippulse\Entry\Account;
-use Shippulse\Facades\Bosta;
+use Obelaw\Shippulse\Bosta\Entry\Account;
+use Obelaw\Shippulse\Bosta\Facades\Bosta;
 $result = Bosta::setConfig(new Account('email', 'password'))->cancelShipment($trackingNumber);
 ```
 
@@ -129,8 +129,8 @@ This returns an array with:
 To get the cash cycle details for a shipment (e.g., COD status and fees), use the `getCashCycle` method:
 
 ```php
-use Shippulse\Entry\Account;
-use Shippulse\Facades\Bosta;
+use Obelaw\Shippulse\Bosta\Entry\Account;
+use Obelaw\Shippulse\Bosta\Facades\Bosta;
 
 $cash = Bosta::setConfig(new Account('email', 'password'))->getCashCycle($trackingNumber);
 ```
