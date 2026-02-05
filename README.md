@@ -124,6 +124,24 @@ This returns an array with:
 - `message`: API message (if any)
 - `data`: Additional API data (if any)
 
+## getCashCycle Method
+
+To get the cash cycle details for a shipment (e.g., COD status and fees), use the `getCashCycle` method:
+
+```php
+use Shippulse\Entry\Account;
+use Shippulse\Facades\Bosta;
+
+$cash = Bosta::setConfig(new Account('email', 'password'))->getCashCycle($trackingNumber);
+```
+
+This returns an instance of `CashCycleResource` with methods:
+
+- `$cash->getDepositedAt();` - Get the date when money was deposited
+- `$cash->getCod();` - Get the COD amount
+- `$cash->getBostaFees();` - Get the Bosta fees
+- `$cash->toArray();` - Get the full response as array
+
 ## Funding
 
 If you find this package useful and would like to support its development, you can sponsor or contribute to the project.

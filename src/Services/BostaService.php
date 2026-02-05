@@ -5,6 +5,7 @@ namespace Obelaw\Shippulse\Bosta\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Obelaw\Shippulse\Bosta\Entry\Account;
+use Obelaw\Shippulse\Bosta\Resources\CashCycleResource;
 use Obelaw\Shippulse\Bosta\Resources\CreateShipmentResource;
 use Obelaw\Shippulse\Bosta\Resources\TrackShipmentResource;
 use Obelaw\Shippulse\Bosta\Services\BostaShippingService;
@@ -111,5 +112,18 @@ class BostaService implements ShippingProviderInterface
             'message' => $json['message'] ?? null,
             'data' => $json['data'] ?? null,
         ];
+    }
+
+    public function getCashCycle($trackingNumber): CashCycleResource
+    {
+        $response = Http::withHeaders([
+            'Authorization' => $this->configs['token'],
+        ])->get($this->bosta->getBaseUrl() . '/api/v2/deliveries/business/' . $trackingNumber);
+
+        if (!$response->json('success')) {
+            throw new \Exception($response->json('message') ?? 'Failed to get cash cycle');
+        }
+
+        return new CashCycleResource($response->json('data.wallet.cashCycle'));
     }
 }
