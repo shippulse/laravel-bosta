@@ -4,6 +4,7 @@ namespace Obelaw\Shippulse\Bosta\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Obelaw\Shippulse\Bosta\Services\BostaService;
+use Obelaw\Shippulse\Pins\Mapper;
 use Obelaw\Shippulse\Shipper\ShipperManager;
 
 class ShippulseBostaServiceProvider extends ServiceProvider
